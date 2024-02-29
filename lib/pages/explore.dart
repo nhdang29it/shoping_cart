@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/components/custom_app_bar/custom_app_bar.dart';
 import 'package:shopping_app/components/grid_item.dart';
-import 'package:shopping_app/cubits/cubit/app_cubit.dart';
+import 'package:shopping_app/cubits/app_cubit/app_cubit.dart';
 
 class Explore extends StatelessWidget {
   const Explore({super.key});
@@ -18,7 +18,7 @@ class Explore extends StatelessWidget {
               context.read<AppCubit>().goHome();
             },
             icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-        badge: 10,
+        // badge: 10,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),

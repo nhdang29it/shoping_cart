@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopping_app/colors.dart';
+import 'package:shopping_app/cubits/cart_cubit/cart_cubit.dart';
 import 'package:shopping_app/pages/bag.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -10,12 +12,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leading,
       this.onBadgeTap,
       this.height = 100,
-      this.badge = 0,
+      // this.badge = 0,
       this.disableAction = false,
       super.key});
 
   final String title;
-  final int badge;
+  // final int badge;
   final double height;
   final Widget? leading;
   final bool disableAction;
@@ -65,9 +67,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       const SizedBox(
                         width: 4,
                       ),
-                      Text(
-                        badge.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          return Text(
+                            state.products.length.toString(),
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          );
+                        },
                       ),
                       const SizedBox(
                         width: 8,

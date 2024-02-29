@@ -1,21 +1,30 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/colors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shopping_app/cubits/cart_cubit/cart_cubit.dart';
+import 'package:shopping_app/models/cart_model.dart';
 
 class ItemTile extends StatelessWidget {
-  const ItemTile({super.key});
+  const ItemTile({required this.productItem, required this.index, super.key});
+
+  final ProductItem productItem;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    final product =
+        context.read<ProductBloc>().getProductById(productItem.productId);
+    // final cartState = context.watch<CartCubit>();
     return Slidable(
       key: UniqueKey(),
       endActionPane: ActionPane(
         motion: const StretchMotion(),
         children: [
           CustomSlidableAction(
-            onPressed: (context) {
-              print("press");
-            },
+            onPressed: (context) {},
             flex: 100,
             padding: const EdgeInsets.only(left: 8.0),
             backgroundColor: const Color(0XFFFEFBF1),
@@ -75,52 +84,56 @@ class ItemTile extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                height: 90,
-                width: 90,
+                height: 80,
+                width: 80,
                 decoration: const BoxDecoration(
                     color: Color(0xffF7F7F6),
                     borderRadius: BorderRadius.all(Radius.circular(22))),
                 child: Center(
-                  child: Image.asset(
-                    "assets/images/bag.jpg",
+                  child: CachedNetworkImage(
+                    imageUrl: product.image,
                     height: 60,
                     width: 60,
-                    // fit: BoxFit.contain,
                   ),
                 ),
               ),
             ),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(8.0, 6.0, 8.0, 0),
-                  child: Text(
-                    "Beoplay E8",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0),
-                  child: Text(
-                    "\$350",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 6.0, 8.0, 0),
+                    child: Text(
+                      product.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0),
+                    child: Text(
+                      "\$${product.price}",
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
             RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: "QTY: ",
-                style: TextStyle(color: borderColor, fontSize: 18),
+                style: const TextStyle(color: borderColor, fontSize: 18),
                 children: [
                   TextSpan(
                     text: "1",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w600),
                   )
                 ],
@@ -140,7 +153,9 @@ class ItemTile extends StatelessWidget {
                     height: 30,
                     width: 40,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<CartCubit>().decreaseQuantity(index);
+                        },
                         style: IconButton.styleFrom(
                             splashFactory: NoSplash.splashFactory),
                         iconSize: 20,
@@ -152,7 +167,9 @@ class ItemTile extends StatelessWidget {
                     height: 35,
                     width: 40,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<CartCubit>().increaseQuantity(index);
+                        },
                         iconSize: 20,
                         style: IconButton.styleFrom(
                             splashFactory: NoSplash.splashFactory),

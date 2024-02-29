@@ -1,64 +1,32 @@
-class CartModel {
-  final int id;
-  final int userId;
-  final DateTime date;
-  final List<Product> products;
-
-  CartModel({
-    required this.id,
-    required this.userId,
-    required this.date,
-    required this.products,
-  });
-
-  CartModel copyWith({
-    int? id,
-    int? userId,
-    DateTime? date,
-    List<Product>? products,
-  }) =>
-      CartModel(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
-        date: date ?? this.date,
-        products: products ?? this.products,
-      );
-
-  factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
-        id: json["id"],
-        userId: json["userId"],
-        date: DateTime.parse(json["date"]),
-        products: List<Product>.from(
-            json["products"].map((x) => Product.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "userId": userId,
-        "date": date.toIso8601String(),
-        "products": List<dynamic>.from(products.map((x) => x.toJson())),
-      };
-}
-
-class Product {
+class ProductItem {
   final int productId;
   final int quantity;
 
-  Product({
+  ProductItem({
     required this.productId,
     required this.quantity,
   });
 
-  Product copyWith({
+  ProductItem copyWithIncreaseQuantity({int? productId, int? quantity}) =>
+      ProductItem(
+          productId: productId ?? this.productId,
+          quantity: quantity ?? this.quantity + 1);
+
+  ProductItem copyWithDecreaseQuantity({int? productId, int? quantity}) =>
+      ProductItem(
+          productId: productId ?? this.productId,
+          quantity: quantity ?? this.quantity - 1);
+
+  ProductItem copyWith({
     int? productId,
     int? quantity,
   }) =>
-      Product(
+      ProductItem(
         productId: productId ?? this.productId,
         quantity: quantity ?? this.quantity,
       );
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
         productId: json["productId"],
         quantity: json["quantity"],
       );

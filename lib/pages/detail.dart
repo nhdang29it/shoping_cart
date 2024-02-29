@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/colors.dart';
 import 'package:shopping_app/components/custom_app_bar/custom_app_bar.dart';
 import 'package:shopping_app/components/details/content_image.dart';
 import 'package:shopping_app/components/details/mini_images.dart';
 import 'package:shopping_app/components/details/product_property.dart';
+import 'package:shopping_app/cubits/cart_cubit/cart_cubit.dart';
 import 'package:shopping_app/models/product_model.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   const DetailPage({required this.product, super.key});
 
   final ProductModel product;
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  int quantity = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +37,21 @@ class DetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ContentImage(
-                image: product.image,
+                image: widget.product.image,
                 icon: const Icon(
                   Icons.favorite,
                   color: Colors.red,
                 )),
-            MiniImages(images: [product.image]),
+            MiniImages(images: [widget.product.image]),
             ProductProperty(
-              product: product,
+              product: widget.product,
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  product.description,
+                  widget.product.description,
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w400),
                 ),
@@ -78,7 +87,13 @@ class DetailPage extends StatelessWidget {
                     height: 35,
                     width: 42,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (quantity > 0) {
+                            setState(() {
+                              quantity--;
+                            });
+                          }
+                        },
                         style: IconButton.styleFrom(
                             splashFactory: NoSplash.splashFactory),
                         iconSize: 20,
@@ -90,7 +105,11 @@ class DetailPage extends StatelessWidget {
                     height: 35,
                     width: 42,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            quantity++;
+                          });
+                        },
                         iconSize: 20,
                         style: IconButton.styleFrom(
                             splashFactory: NoSplash.splashFactory),
@@ -102,13 +121,13 @@ class DetailPage extends StatelessWidget {
               ),
             ),
             RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: "QTY: ",
-                style: TextStyle(color: borderColor, fontSize: 22),
+                style: const TextStyle(color: borderColor, fontSize: 22),
                 children: [
                   TextSpan(
-                    text: "1",
-                    style: TextStyle(color: Colors.black),
+                    text: quantity.toString(),
+                    style: const TextStyle(color: Colors.black),
                   )
                 ],
               ),
@@ -117,7 +136,16 @@ class DetailPage extends StatelessWidget {
               width: 20,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (quantity > 0) {
+                  context
+                      .read<CartCubit>()
+                      .addItemToCart(widget.product, quantity);
+                  setState(() {
+                    quantity = 0;
+                  });
+                }
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: black,
                   foregroundColor: Colors.white,

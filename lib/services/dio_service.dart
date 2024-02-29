@@ -1,14 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:shopping_app/models/cart_model.dart';
 import 'package:shopping_app/services/product_repo.dart';
 
 class ProductRepository implements DataRepository {
   Dio dio = Dio(BaseOptions(baseUrl: "https://fakestoreapi.com/"));
-
-  @override
-  Future<Map<String, dynamic>> addNewProductToCart(CartModel cartModel) async {
-    throw UnimplementedError();
-  }
 
   @override
   Future<Map<String, dynamic>> getAllProduct() async {

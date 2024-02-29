@@ -31,4 +31,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit.call(state.copyWith(status: ProductStateStatus.failure));
     });
   }
+
+  ProductModel getProductById(int id) {
+    return state.products.where((element) => element.id == id).first;
+  }
 }

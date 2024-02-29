@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shopping_app/colors.dart';
 import 'package:shopping_app/components/bottom_nav_bar/bottom_item_model.dart';
-import 'package:shopping_app/cubits/cubit/app_cubit.dart';
+import 'package:shopping_app/cubits/app_cubit/app_cubit.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({this.currentIndex = 0, required this.items, super.key});

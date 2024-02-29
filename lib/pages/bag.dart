@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/colors.dart';
 import 'package:shopping_app/components/bag/item_tile.dart';
 import 'package:shopping_app/components/custom_app_bar/custom_app_bar.dart';
+import 'package:shopping_app/cubits/cart_cubit/cart_cubit.dart';
+import 'package:shopping_app/models/cart_model.dart';
 
 class BagPage extends StatelessWidget {
   const BagPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cartState = context.watch<CartCubit>();
+
     return Scaffold(
       appBar: MyAppBar(
         title: "Bag",
@@ -31,26 +37,39 @@ class BagPage extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0, left: 24.0),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 24.0),
             child: Text(
-              "8 Items",
-              style: TextStyle(fontSize: 16, color: Color(0XFFDDDFE2)),
+              "${cartState.state.products.length} Items",
+              style: const TextStyle(fontSize: 16, color: Color(0XFFDDDFE2)),
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 8,
-              itemBuilder: (context, index) {
-                return const Padding(
-                  padding: EdgeInsets.fromLTRB(24.0, 6.0, 0, 6.0),
-                  child: ItemTile(),
-                );
-              },
-            ),
+          BlocBuilder<CartCubit, CartState>(
+            builder: (context, state) {
+              return Expanded(
+                child: state.products.isEmpty
+                    ? const Center(
+                        child: Text("Empty cart"),
+                      )
+                    : ListView.builder(
+                        itemCount: state.products.length,
+                        itemBuilder: (context, index) {
+                          final ProductItem productItem = state.products[index];
+                          return Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(24.0, 6.0, 0, 6.0),
+                            child: ItemTile(
+                              productItem: productItem,
+                              index: index,
+                            ),
+                          );
+                        },
+                      ),
+              );
+            },
           ),
         ],
       ),
@@ -64,21 +83,22 @@ class BagPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Total",
                   style: TextStyle(
                       fontWeight: FontWeight.w500, color: borderColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text("\$2250.00",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(
+                    "\$${cartState.getTotal(context.read<ProductBloc>()).toStringAsFixed(2)}",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
               ],
             ),
             ElevatedButton(
