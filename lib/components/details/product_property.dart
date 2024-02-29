@@ -1,36 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/colors.dart';
+import 'package:shopping_app/models/product_model.dart';
 
 class ProductProperty extends StatelessWidget {
-  const ProductProperty({super.key});
+  const ProductProperty({required this.product, super.key});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<ProductBloc>();
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3.0),
       child: SizedBox(
-        height: 80,
+        height: 120,
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            buildTextAndPrice(
-                text: state.state.products.first.title, price: "\$750"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: listProdColor.map<Widget>((e) {
-                if (listProdColor.indexOf(e) == 0) {
-                  return SelectColor(isSelected: true, color: e);
-                }
-                return SelectColor(color: e);
-              }).toList()
-                ..add(const SizedBox(
-                  width: 10,
-                )),
+            Expanded(
+                flex: 7,
+                child: buildTextAndPrice(
+                    text: product.title, price: "\$${product.price}")),
+            Expanded(
+              flex: 3,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: listProdColor.map<Widget>((e) {
+                    if (listProdColor.indexOf(e) == 2) {
+                      return SelectColor(isSelected: true, color: e);
+                    }
+                    return SelectColor(color: e);
+                  }).toList()
+                  // ..add(const SizedBox(
+                  //   width: 10,
+                  // )),
+                  ),
             )
           ],
         ),
@@ -51,7 +55,7 @@ class SelectColor extends StatelessWidget {
         ? Container(
             width: 30,
             height: 60,
-            margin: const EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 6),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(36)),
                 border: Border.fromBorderSide(
@@ -71,7 +75,7 @@ class SelectColor extends StatelessWidget {
         : Container(
             width: 26,
             height: 55,
-            margin: const EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 6),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(36)),
                 color: color),
@@ -90,6 +94,9 @@ Widget buildTextAndPrice({required String text, required String price}) =>
             text,
             style: const TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 22, wordSpacing: 1.5),
+            softWrap: true,
+            maxLines: 3,
+            overflow: TextOverflow.clip,
           ),
         ),
         Padding(

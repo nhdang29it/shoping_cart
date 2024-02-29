@@ -34,7 +34,9 @@ class DetailPage extends StatelessWidget {
                   color: Colors.red,
                 )),
             MiniImages(images: [product.image]),
-            const ProductProperty(),
+            ProductProperty(
+              product: product,
+            ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Align(

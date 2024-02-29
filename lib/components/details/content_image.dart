@@ -44,8 +44,8 @@ class ContentImage extends StatelessWidget {
                 // ),
                 child: CachedNetworkImage(
                   imageUrl: image,
-                  height: 260,
-                  width: 260,
+                  height: 185,
+                  width: 185,
                   progressIndicatorBuilder: (context, url, progress) {
                     return CircularProgressIndicator(
                       value: progress.downloaded.toDouble(),
