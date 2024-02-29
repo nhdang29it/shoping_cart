@@ -19,8 +19,11 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Screen shots
 
-<img src="./screen_shots/explore_screen.jpg", width="400"></img>
-<br>
-<img src="./screen_shots/detail_screen.jpg", width="400"></img>
-<br>
-<img src="./screen_shots/bag_screen.jpg", width="400"></img>
+### Explore screen
+<img src="./screen_shots/explore_screen.jpg"></img>
+
+### Detail screen
+<img src="./screen_shots/detail_screen.jpg"></img>
+
+### Cart screen
+<img src="./screen_shots/bag_screen.jpg"></img>
