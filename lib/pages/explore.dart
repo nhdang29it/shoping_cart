@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/components/custom_app_bar/custom_app_bar.dart';
 import 'package:shopping_app/components/grid_item.dart';
 import 'package:shopping_app/cubits/cubit/app_cubit.dart';
@@ -21,17 +22,36 @@ class Explore extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: GridView.builder(
-          itemCount: 12,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 5,
-              mainAxisExtent: 262),
-          itemBuilder: (context, index) {
-            return Transform.translate(
-              offset: Offset(0, index.isOdd ? 23 : 0),
-              child: const CustomGridItem(),
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state.status == ProductStateStatus.failure) {
+              return const Center(
+                child: Text("Somethings went wrong"),
+              );
+            }
+
+            if (state.status == ProductStateStatus.success) {
+              return GridView.builder(
+                itemCount: 12,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 5,
+                    mainAxisExtent: 300),
+                itemBuilder: (context, index) {
+                  final prod = state.products[index];
+                  return Transform.translate(
+                    offset: Offset(0, index.isOdd ? 30 : 0),
+                    child: CustomGridItem(
+                      product: prod,
+                    ),
+                  );
+                },
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
             );
           },
         ),

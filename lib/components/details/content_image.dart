@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ContentImage extends StatelessWidget {
@@ -24,11 +25,33 @@ class ContentImage extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Center(
-                child: Image.asset(
-                  image,
-                  height: 140,
-                  width: 140,
-                  // fit: BoxFit.contain,
+                // child: Image.network(
+                //   image,
+                //   height: 140,
+                //   width: 140,
+                //   loadingBuilder: (context, child, loadingProgress) {
+                //     if (loadingProgress == null) return child;
+                //     return Center(
+                //       child: CircularProgressIndicator(
+                //           value: loadingProgress.expectedTotalBytes != null
+                //               ? loadingProgress.cumulativeBytesLoaded /
+                //                   loadingProgress.expectedTotalBytes!
+                //               : null,
+                //           ),
+                //     );
+                //   },
+                //   // fit: BoxFit.contain,
+                // ),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  height: 260,
+                  width: 260,
+                  progressIndicatorBuilder: (context, url, progress) {
+                    return CircularProgressIndicator(
+                      value: progress.downloaded.toDouble(),
+                    );
+                  },
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),

@@ -1,15 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shopping_app/models/product_model.dart';
 import 'package:shopping_app/pages/detail.dart';
 
 class CustomGridItem extends StatelessWidget {
-  const CustomGridItem({super.key});
+  const CustomGridItem({required this.product, super.key});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const DetailPage()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => DetailPage(
+                  product: product,
+                )));
       },
       child: Container(
         // color: Colors.amber,
@@ -26,27 +32,43 @@ class CustomGridItem extends StatelessWidget {
                     color: Color(0xffF7F7F6),
                     borderRadius: BorderRadius.all(Radius.circular(22))),
                 child: Center(
-                  child: Image.asset(
-                    "assets/images/bag.jpg",
+                  // child: Image.network(
+                  //   product.image,
+                  //   height: 140,
+                  //   width: 140,
+                  // ),
+                  child: CachedNetworkImage(
+                    imageUrl: product.image,
                     height: 140,
                     width: 140,
-                    // fit: BoxFit.contain,
+                    progressIndicatorBuilder: (context, url, progress) {
+                      return CircularProgressIndicator(
+                        value: progress.downloaded.toDouble(),
+                      );
+                    },
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 5.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 6.0, right: 6.0, top: 5.0),
               child: Text(
-                "Beosound A1",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                product.title,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 6.0, right: 6.0, top: 4.0),
               child: Text(
-                "\$750",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                "\$${product.price}",
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
             ),
           ],

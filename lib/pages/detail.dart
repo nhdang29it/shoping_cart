@@ -4,9 +4,12 @@ import 'package:shopping_app/components/custom_app_bar/custom_app_bar.dart';
 import 'package:shopping_app/components/details/content_image.dart';
 import 'package:shopping_app/components/details/mini_images.dart';
 import 'package:shopping_app/components/details/product_property.dart';
+import 'package:shopping_app/models/product_model.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  const DetailPage({required this.product, super.key});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -19,37 +22,31 @@ class DetailPage extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back_ios_rounded)),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ContentImage(
-                image: "assets/images/bag.jpg",
-                icon: Icon(
+                image: product.image,
+                icon: const Icon(
                   Icons.favorite,
                   color: Colors.red,
                 )),
-            MiniImages(images: [
-              "assets/images/bag.jpg",
-              "assets/images/bag.jpg",
-              "assets/images/bag.jpg",
-              "assets/images/bag.jpg",
-              "assets/images/bag.jpg",
-              "assets/images/bag.jpg",
-            ]),
-            ProductProperty(),
+            MiniImages(images: [product.image]),
+            const ProductProperty(),
             Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "More compact. More powerful.",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  product.description,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             )
           ],

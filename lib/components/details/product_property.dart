@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/colors.dart';
 
 class ProductProperty extends StatelessWidget {
@@ -6,6 +8,8 @@ class ProductProperty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<ProductBloc>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3.0),
       child: SizedBox(
@@ -14,7 +18,8 @@ class ProductProperty extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            buildTextAndPrice(text: "Beoplay E8", price: "\$750"),
+            buildTextAndPrice(
+                text: state.state.products.first.title, price: "\$750"),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: listProdColor.map<Widget>((e) {

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MiniImages extends StatelessWidget {
@@ -12,35 +13,66 @@ class MiniImages extends StatelessWidget {
       child: SizedBox(
         height: 60,
         width: double.infinity,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              for (String link in images)
-                Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 6),
-                  decoration: const BoxDecoration(
-                      color: Color(0xffF7F7F6), shape: BoxShape.circle),
-                  child: InkWell(
-                    onTap: () {},
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: Center(
-                      child: Image.asset(link, height: 30, width: 30),
+        child: images.length > 3
+            ? SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 10,
                     ),
-                  ),
+                    for (String link in images)
+                      Container(
+                        height: 50,
+                        width: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        decoration: const BoxDecoration(
+                            color: Color(0xffF7F7F6), shape: BoxShape.circle),
+                        child: InkWell(
+                          onTap: () {},
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
+                          child: Center(
+                            child: CachedNetworkImage(
+                                imageUrl: link, height: 30, width: 30),
+                          ),
+                        ),
+                      ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                  ],
                 ),
-              const SizedBox(
-                width: 10,
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  for (String link in images)
+                    Container(
+                      height: 50,
+                      width: 50,
+                      margin: const EdgeInsets.symmetric(horizontal: 6),
+                      decoration: const BoxDecoration(
+                          color: Color(0xffF7F7F6), shape: BoxShape.circle),
+                      child: InkWell(
+                        onTap: () {},
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
+                        child: Center(
+                          child: CachedNetworkImage(
+                              imageUrl: link, height: 30, width: 30),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
       ),
     );
   }
