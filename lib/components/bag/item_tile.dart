@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shopping_app/components/custom_image.dart';
 import 'package:shopping_app/cubits/cart_cubit/cart_cubit.dart';
 import 'package:shopping_app/models/cart_model.dart';
+import 'package:shopping_app/pages/detail.dart';
 
 class ItemTile extends StatelessWidget {
   const ItemTile({required this.productItem, required this.index, super.key});
@@ -83,11 +84,19 @@ class ItemTile extends StatelessWidget {
           children: [
             Center(
               child: CustomImage(
-                  bgHeight: 80,
-                  bgWidth: 80,
-                  imgHeight: 60,
-                  imgWidth: 60,
-                  imageUrl: productItem.product.image),
+                bgHeight: 80,
+                bgWidth: 80,
+                imgHeight: 60,
+                imgWidth: 60,
+                imageUrl: productItem.product.image,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DetailPage(product: productItem.product)));
+                },
+              ),
             ),
             Expanded(
               child: Column(
