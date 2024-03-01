@@ -11,8 +11,6 @@ class BagPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartState = context.watch<CartCubit>();
-
     return Scaffold(
       appBar: MyAppBar(
         title: "Bag",
@@ -38,10 +36,13 @@ class BagPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0, left: 24.0),
-            child: Text(
-              "${cartState.state.products.length} Items",
-              style: const TextStyle(fontSize: 16, color: Color(0XFFDDDFE2)),
-            ),
+            child:
+                BlocBuilder<CartCubit, CartState>(builder: ((context, state) {
+              return Text(
+                "${state.products.length} Items",
+                style: const TextStyle(fontSize: 16, color: Color(0XFFDDDFE2)),
+              );
+            })),
           ),
           const SizedBox(
             height: 10,
@@ -94,13 +95,20 @@ class BagPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Text("\$${cartState.state.total.toStringAsFixed(2)}",
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold)),
+                BlocBuilder<CartCubit, CartState>(builder: (context, state) {
+                  return Text("\$${state.total.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold));
+                })
+                // Text("\$${cartState.state.total.toStringAsFixed(2)}",
+                //     style: const TextStyle(
+                //         fontSize: 20, fontWeight: FontWeight.bold)),
               ],
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<CartCubit>().checkOut();
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: black,
                   foregroundColor: Colors.white,

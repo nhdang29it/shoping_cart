@@ -31,5 +31,5 @@ final class CartState extends Equatable {
           status: status ?? this.status);
 
   @override
-  List<Object> get props => [userId, date, products];
+  List<Object> get props => [userId, date, products, total];
 }

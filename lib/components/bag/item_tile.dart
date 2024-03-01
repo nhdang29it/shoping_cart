@@ -11,6 +11,7 @@ class ItemTile extends StatelessWidget {
 
   final ProductItem productItem;
   final int index;
+  final double itemTileHeight = 90;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +21,12 @@ class ItemTile extends StatelessWidget {
         motion: const StretchMotion(),
         children: [
           CustomSlidableAction(
-            onPressed: (context) {},
-            flex: 100,
+            onPressed: (ctx) {
+              ctx.read<CartCubit>().deleteProductItem(productItem: productItem);
+            },
+            // flex: 10,
             padding: const EdgeInsets.only(left: 8.0),
             backgroundColor: const Color(0XFFFEFBF1),
-            // backgroundColor: const Color(0XFFFEFBF1),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(42),
               bottomLeft: Radius.circular(42),
@@ -73,7 +75,7 @@ class ItemTile extends StatelessWidget {
         ],
       ),
       child: SizedBox(
-        height: 90,
+        height: itemTileHeight,
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,7 +139,7 @@ class ItemTile extends StatelessWidget {
             ),
             Container(
               // decrease/increase quantity
-              height: 70,
+              height: itemTileHeight - 10,
               margin: const EdgeInsets.only(left: 14.0, right: 14.0),
               decoration: const BoxDecoration(
                 color: borderColor,
@@ -147,7 +149,7 @@ class ItemTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    height: 30,
+                    height: 35,
                     width: 40,
                     child: IconButton(
                         onPressed: () {
