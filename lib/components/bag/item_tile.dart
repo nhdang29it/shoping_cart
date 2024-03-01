@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/colors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shopping_app/components/custom_image.dart';
 import 'package:shopping_app/cubits/cart_cubit/cart_cubit.dart';
 import 'package:shopping_app/models/cart_model.dart';
 
@@ -79,32 +79,22 @@ class ItemTile extends StatelessWidget {
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
-              child: Container(
-                height: 80,
-                width: 80,
-                decoration: const BoxDecoration(
-                    color: Color(0xffF7F7F6),
-                    borderRadius: BorderRadius.all(Radius.circular(22))),
-                child: Center(
-                  child: CachedNetworkImage(
-                    imageUrl: productItem.product.image,
-                    height: 60,
-                    width: 60,
-                  ),
-                ),
-              ),
+              child: CustomImage(
+                  bgHeight: 80,
+                  bgWidth: 80,
+                  imgHeight: 60,
+                  imgWidth: 60,
+                  imageUrl: productItem.product.image),
             ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 6.0, 8.0, 0),
+                    padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 0),
                     child: Text(
                       productItem.product.title,
                       maxLines: 2,

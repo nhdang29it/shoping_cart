@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shopping_app/components/custom_image.dart';
 import 'package:shopping_app/models/product_model.dart';
 import 'package:shopping_app/pages/detail.dart';
 
@@ -18,39 +18,24 @@ class CustomGridItem extends StatelessWidget {
                 )));
       },
       child: Container(
-        // color: Colors.amber,
+        // color: Color.fromARGB(255, 221, 223, 253),
         padding: const EdgeInsets.all(4.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Container(
-                height: 180,
-                width: 160,
-                decoration: const BoxDecoration(
-                    color: Color(0xffF7F7F6),
-                    borderRadius: BorderRadius.all(Radius.circular(22))),
-                child: Center(
-                  // child: Image.network(
-                  //   product.image,
-                  //   height: 140,
-                  //   width: 140,
-                  // ),
-                  child: CachedNetworkImage(
-                    imageUrl: product.image,
-                    height: 140,
-                    width: 140,
-                    progressIndicatorBuilder: (context, url, progress) {
-                      return CircularProgressIndicator(
-                        value: progress.downloaded.toDouble(),
-                      );
-                    },
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-              ),
+              child: CustomImage(
+                  bgHeight: 180,
+                  bgWidth: 160,
+                  imgHeight: 140,
+                  imgWidth: 140,
+                  progressIndicatorBuilder: (context, url, progress) {
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error_rounded),
+                  imageUrl: product.image),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 6.0, right: 6.0, top: 5.0),

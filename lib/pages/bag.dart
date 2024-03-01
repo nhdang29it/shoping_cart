@@ -52,7 +52,7 @@ class BagPage extends StatelessWidget {
               return Expanded(
                 child: state.products.isEmpty
                     ? const Center(
-                        child: Text("Empty cart"),
+                        child: Text("Countinue shoping"),
                       )
                     : ListView.builder(
                         itemCount: state.products.length,
@@ -100,9 +100,6 @@ class BagPage extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold));
                 })
-                // Text("\$${cartState.state.total.toStringAsFixed(2)}",
-                //     style: const TextStyle(
-                //         fontSize: 20, fontWeight: FontWeight.bold)),
               ],
             ),
             ElevatedButton(
