@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/colors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shopping_app/cubits/cart_cubit/cart_cubit.dart';
@@ -15,9 +14,6 @@ class ItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product =
-        context.read<ProductBloc>().getProductById(productItem.productId);
-    // final cartState = context.watch<CartCubit>();
     return Slidable(
       key: UniqueKey(),
       endActionPane: ActionPane(
@@ -91,7 +87,7 @@ class ItemTile extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(22))),
                 child: Center(
                   child: CachedNetworkImage(
-                    imageUrl: product.image,
+                    imageUrl: productItem.product.image,
                     height: 60,
                     width: 60,
                   ),
@@ -108,7 +104,7 @@ class ItemTile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 6.0, 8.0, 0),
                     child: Text(
-                      product.title,
+                      productItem.product.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -118,7 +114,7 @@ class ItemTile extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0),
                     child: Text(
-                      "\$${product.price}",
+                      "\$${productItem.product.price}",
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w500),
                     ),
@@ -132,7 +128,7 @@ class ItemTile extends StatelessWidget {
                 style: const TextStyle(color: borderColor, fontSize: 18),
                 children: [
                   TextSpan(
-                    text: "1",
+                    text: productItem.quantity.toString(),
                     style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w600),
                   )
@@ -140,6 +136,7 @@ class ItemTile extends StatelessWidget {
               ),
             ),
             Container(
+              // decrease/increase quantity
               height: 70,
               margin: const EdgeInsets.only(left: 14.0, right: 14.0),
               decoration: const BoxDecoration(
@@ -154,7 +151,9 @@ class ItemTile extends StatelessWidget {
                     width: 40,
                     child: IconButton(
                         onPressed: () {
-                          context.read<CartCubit>().decreaseQuantity(index);
+                          context
+                              .read<CartCubit>()
+                              .decreaseQuantity(productIndex: index);
                         },
                         style: IconButton.styleFrom(
                             splashFactory: NoSplash.splashFactory),
@@ -168,7 +167,9 @@ class ItemTile extends StatelessWidget {
                     width: 40,
                     child: IconButton(
                         onPressed: () {
-                          context.read<CartCubit>().increaseQuantity(index);
+                          context
+                              .read<CartCubit>()
+                              .increaseQuantity(productIndex: index);
                         },
                         iconSize: 20,
                         style: IconButton.styleFrom(

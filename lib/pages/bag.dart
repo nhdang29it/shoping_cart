@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopping_app/blocs/product/product_bloc.dart';
 import 'package:shopping_app/colors.dart';
 import 'package:shopping_app/components/bag/item_tile.dart';
 import 'package:shopping_app/components/custom_app_bar/custom_app_bar.dart';
@@ -95,8 +94,7 @@ class BagPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Text(
-                    "\$${cartState.getTotal(context.read<ProductBloc>()).toStringAsFixed(2)}",
+                Text("\$${cartState.state.total.toStringAsFixed(2)}",
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold)),
               ],

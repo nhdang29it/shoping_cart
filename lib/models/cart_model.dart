@@ -1,38 +1,46 @@
+import 'package:shopping_app/models/product_model.dart';
+
+/// ProductItem:
+/// product: ProductModel,
+/// quantity: int
+
 class ProductItem {
-  final int productId;
+  final ProductModel product;
   final int quantity;
 
   ProductItem({
-    required this.productId,
+    required this.product,
     required this.quantity,
   });
 
-  ProductItem copyWithIncreaseQuantity({int? productId, int? quantity}) =>
+  ProductItem copyWithIncreaseQuantity(
+          {ProductModel? product, int? quantity}) =>
       ProductItem(
-          productId: productId ?? this.productId,
+          product: product ?? this.product,
           quantity: quantity ?? this.quantity + 1);
 
-  ProductItem copyWithDecreaseQuantity({int? productId, int? quantity}) =>
+  ProductItem copyWithDecreaseQuantity(
+          {ProductModel? product, int? quantity}) =>
       ProductItem(
-          productId: productId ?? this.productId,
-          quantity: quantity ?? this.quantity - 1);
+          product: product ?? this.product,
+          quantity: quantity ?? (this.quantity <= 0 ? 0 : this.quantity - 1));
 
   ProductItem copyWith({
-    int? productId,
+    ProductModel? product,
     int? quantity,
   }) =>
       ProductItem(
-        productId: productId ?? this.productId,
+        product: product ?? this.product,
         quantity: quantity ?? this.quantity,
       );
 
   factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
-        productId: json["productId"],
+        product: json["product"],
         quantity: json["quantity"],
       );
 
   Map<String, dynamic> toJson() => {
-        "productId": productId,
+        "product": product,
         "quantity": quantity,
       };
 }
