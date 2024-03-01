@@ -11,5 +11,6 @@ const Color bottomNavBarItemTextUnselectedColor = Color(0XFFD9DBDF);
 const List<Color> listProdColor = [
   Color(0xff3A7161),
   Color(0xffD8C3a1),
-  Color(0xffE1D1D0)
+  Color(0xffE1D1D0),
+  Color.fromARGB(255, 153, 219, 191),
 ];

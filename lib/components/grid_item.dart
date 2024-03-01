@@ -31,6 +31,7 @@ class CustomGridItem extends StatelessWidget {
                   imgHeight: 140,
                   imgWidth: 140,
                   progressIndicatorBuilder: (context, url, progress) {
+                    print(url);
                     return const Center(child: CircularProgressIndicator());
                   },
                   errorWidget: (context, url, error) =>

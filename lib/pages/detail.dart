@@ -63,7 +63,11 @@ class _DetailPageState extends State<DetailPage> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  Widget _buildBottomNavigationBar() => Container(
         height: 120,
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(width: 1, color: borderColor)),
@@ -154,7 +158,5 @@ class _DetailPageState extends State<DetailPage> {
             )
           ],
         ),
-      ),
-    );
-  }
+      );
 }
